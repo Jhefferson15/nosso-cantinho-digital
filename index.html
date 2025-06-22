@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Nosso Cantinho Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+
+    <div class="login-container">
+        <h1>Nosso Cantinho Digital</h1>
+        <p>Um lugar só nosso.</p>
+        <form id="login-form">
+            <label for="secret-word">Palavra Secreta:</label>
+            <input type="password" id="secret-word" placeholder="Qual a nossa palavra mágica?" required>
+            <button type="submit">Entrar</button>
+            <p id="error-message" class="error-message">Ops! Palavra errada. Tente de novo, meu amor.</p>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
