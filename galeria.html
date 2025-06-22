@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria - Nosso Cantinho</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="app-page">
+
+    <header class="app-header">
+        <h1>Nossa Galeria</h1>
+        <p>Memórias que queremos guardar para sempre.</p>
+    </header>
+
+    <main class="main-content-page">
+        <div class="gallery-grid-page">
+            <!-- Coloque suas fotos na pasta assets/img/galeria/ -->
+            <img src="https://via.placeholder.com/400x400.png?text=Viagem" alt="Foto 1" class="gallery-item">
+            <img src="https://via.placeholder.com/400x500.png?text=Aniversário" alt="Foto 2" class="gallery-item">
+            <img src="https://via.placeholder.com/400x300.png?text=Jantar" alt="Foto 3" class="gallery-item">
+            <img src="https://via.placeholder.com/400x400.png?text=Praia" alt="Foto 4" class="gallery-item">
+        </div>
+    </main>
+
+    <!-- Lightbox para a Galeria -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">×</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+    
+    <!-- Barra de Navegação (copie e cole) -->
+    <nav class="bottom-nav">
+        <a href="momentos.html" class="nav-link"><i class="fas fa-images"></i><span>Momentos</span></a>
+        <a href="galeria.html" class="nav-link active"><i class="fas fa-photo-film"></i><span>Galeria</span></a>
+        <a href="journal.html" class="nav-link"><i class="fas fa-book-open"></i><span>Journal</span></a>
+        <a href="plans.html" class="nav-link"><i class="fas fa-flag-checkered"></i><span>Planos</span></a>
+        <a href="audio.html" class="nav-link"><i class="fas fa-microphone-alt"></i><span>Vozes</span></a>
+    </nav>
+    <script src="script.js"></script>
+</body>
+</html>

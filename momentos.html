@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Momentos - Nosso Cantinho</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="app-page">
+
+    <header class="app-header">
+        <h1>Momentos do Dia</h1>
+        <p>Nossa timeline particular</p>
+    </header>
+
+    <main class="main-content-swipe">
+        <div class="card-stack">
+            <!-- As fotos do dia a dia serão inseridas aqui. -->
+            <!-- Coloque suas fotos na pasta assets/img/momentos/ -->
+            <div class="card--photo" style="background-image: url('assets/img/momentos/dia3.jpg');"><div class="card-caption">Selfie no café</div></div>
+            <div class="card--photo" style="background-image: url('assets/img/momentos/dia2.jpg');"><div class="card-caption">O almoço de hoje!</div></div>
+            <div class="card--photo" style="background-image: url('assets/img/momentos/dia1.jpg');"><div class="card-caption">Bom dia, meu amor!</div></div>
+        </div>
+
+        <div class="swipe-actions">
+            <button id="nope-btn"><i class="fas fa-times"></i></button>
+            <button id="love-btn"><i class="fas fa-heart"></i></button>
+        </div>
+    </main>
+    
+    <!-- Barra de Navegação do App (será copiada em todas as páginas) -->
+    <nav class="bottom-nav">
+        <a href="momentos.html" class="nav-link active">
+            <i class="fas fa-images"></i>
+            <span>Momentos</span>
+        </a>
+        <a href="galeria.html" class="nav-link">
+            <i class="fas fa-photo-film"></i>
+            <span>Galeria</span>
+        </a>
+        <a href="journal.html" class="nav-link">
+            <i class="fas fa-book-open"></i>
+            <span>Journal</span>
+        </a>
+        <a href="plans.html" class="nav-link">
+            <i class="fas fa-flag-checkered"></i>
+            <span>Planos</span>
+        </a>
+        <a href="audio.html" class="nav-link">
+            <i class="fas fa-microphone-alt"></i>
+            <span>Vozes</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
