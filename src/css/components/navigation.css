@@ -1,0 +1,98 @@
+/* --- Mobile First: Bottom Bar Styles --- */
+.app-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--cor-nav);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    border-top: 1px solid #f0f0f0;
+}
+
+.app-nav .nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--cor-nav-icon);
+    transition: color 0.3s ease, transform 0.2s ease;
+    flex-grow: 1;
+    padding: 5px 0;
+}
+
+.app-nav .nav-link i {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.app-nav .nav-link span {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.app-nav .nav-link.active {
+    color: var(--cor-nav-active);
+    transform: translateY(-3px);
+}
+
+.app-nav .nav-link:not(.active):hover {
+    color: var(--cor-nav-active);
+}
+
+
+/* --- Desktop: Sidebar Styles --- */
+@media (min-width: 768px) {
+    .app-nav {
+        top: 0;
+        left: 0;
+        width: 220px; /* Largura da sidebar */
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 20px 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+        border-top: none;
+        border-right: 1px solid #f0f0f0;
+    }
+
+    .app-nav .nav-link {
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 15px 30px;
+        flex-grow: 0;
+    }
+
+    .app-nav .nav-link i {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+        margin-right: 20px;
+        width: 25px; /* Alinha o texto */
+    }
+
+    .app-nav .nav-link span {
+        font-size: 1rem;
+    }
+
+    .app-nav .nav-link.active {
+        background-color: var(--cor-principal-transparente);
+        border-right: 4px solid var(--cor-principal);
+        transform: none;
+    }
+
+    .app-content-wrapper {
+        margin-left: 220px; /* Mesmo que a largura da sidebar */
+    }
+
+    /* Ajusta o padding do body para remover o espaço inferior */
+    body.app-page {
+        padding-bottom: 0;
+    }
+}

@@ -1,0 +1,201 @@
+/* ---- PÁGINA MOMENTOS (SWIPE CARDS) ---- */
+.main-content-swipe {
+    position: relative; /* Adicionado para o posicionamento do overlay */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    overflow: hidden;
+    padding: 10px;
+    height: calc(100vh - 160px); /* Ajusta a altura da área de swipe */
+}
+.card-stack {
+    position: relative;
+    width: 90vw;
+    max-width: 350px;
+    height: 120vw;
+    max-height: 500px;
+}
+.card--photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--borda-radius);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: flex-end;
+    color: white;
+    cursor: grab;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform;
+}
+.card--photo.swiping {
+    transition: none;
+}
+.card-caption {
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    border-bottom-left-radius: var(--borda-radius);
+    border-bottom-right-radius: var(--borda-radius);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.swipe-actions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+.swipe-actions button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.2s ease-in-out;
+}
+.swipe-actions button:hover {
+    transform: scale(1.1);
+}
+#add-moment-btn { color: var(--cor-primaria); }
+.all-seen {
+    color: #aaa;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* ---- Indicadores de Swipe (Coração e X) ---- */
+.swipe-indicator {
+    position: absolute;
+    top: 40px;
+    font-size: 5rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.swipe-indicator--love {
+    right: 30px;
+    color: var(--cor-sucesso);
+    transform: rotate(15deg);
+}
+
+.swipe-indicator--nope {
+    left: 30px;
+    color: var(--cor-erro);
+    transform: rotate(-15deg);
+}
+
+
+/* ---- Formulário de Adicionar Momento ---- */
+#add-moment-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#add-moment-form-container.hidden {
+    display: none;
+}
+
+#add-moment-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--borda-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#add-moment-form h2 {
+    margin: 0;
+    text-align: center;
+    color: var(--cor-texto-principal);
+}
+
+#add-moment-form input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#add-moment-form textarea {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 80px;
+    resize: vertical;
+}
+
+#add-moment-form button {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#add-moment-form button[type="submit"] {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+#add-moment-form button[type="button"] {
+    background-color: #ccc;
+}
+
+/* ---- Overlay de Carregamento (Spinner) ---- */
+#loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Acima do formulário */
+}
+
+#loading-overlay.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3; /* Cinza claro */
+    border-top: 5px solid var(--cor-primaria); /* Cor primária */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,110 @@
+/* ---- ESTILOS DO MÓDULO FINANCEIRO ---- */
+
+.finances-summary-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.summary-item {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.summary-item h4 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.summary-item p {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.summary-item.income p {
+    color: #28a745; /* Verde para receitas */
+}
+
+.summary-item.expenses p {
+    color: #dc3545; /* Vermelho para despesas */
+}
+
+.summary-item.balance p {
+    color: #007bff; /* Azul para saldo */
+}
+
+.add-transaction-form {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+
+.add-transaction-form h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.add-transaction-form .bujo-input {
+    margin-bottom: 10px;
+}
+
+.add-transaction-form button {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.transactions-list-container h4 {
+    margin-bottom: 15px;
+}
+
+.transactions-list {
+    list-style: none;
+    padding: 0;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-item .amount {
+    font-weight: 500;
+}
+
+.transaction-item.income .amount {
+    color: #28a745;
+}
+
+.transaction-item.expense .amount {
+    color: #dc3545;
+}
+
+.transaction-item .delete-trx-btn {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.transaction-item:hover .delete-trx-btn {
+    visibility: visible;
+    opacity: 1;
+}
+
+.transaction-placeholder {
+    color: #888;
+    text-align: center;
+    padding: 20px 0;
+}

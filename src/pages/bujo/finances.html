@@ -1,0 +1,45 @@
+<div class="bujo-card">
+    <!-- Cabeçalho do Mês com Navegação -->
+    <div id="finances-header" class="calendar-header">
+        <button id="finances-prev-month" class="bujo-button-icon">&#9664;</button>
+        <h3 id="finances-month-year"></h3>
+        <button id="finances-next-month" class="bujo-button-icon">&#9654;</button>
+    </div>
+
+    <!-- Resumo Financeiro -->
+    <div id="finances-summary" class="finances-summary-container">
+        <div class="summary-item income">
+            <h4>Receitas</h4>
+            <p id="summary-income">R$ 0,00</p>
+        </div>
+        <div class="summary-item expenses">
+            <h4>Despesas</h4>
+            <p id="summary-expenses">R$ 0,00</p>
+        </div>
+        <div class="summary-item balance">
+            <h4>Saldo</h4>
+            <p id="summary-balance">R$ 0,00</p>
+        </div>
+    </div>
+
+    <!-- Formulário para Adicionar Nova Transação -->
+    <div class="add-transaction-form">
+        <h4>Adicionar Transação</h4>
+        <input type="text" id="transaction-description" class="bujo-input" placeholder="Descrição (ex: Salário, Aluguel)">
+        <input type="number" id="transaction-amount" class="bujo-input" placeholder="Valor (ex: 50.00)">
+        <select id="transaction-type" class="bujo-input">
+            <option value="income">Receita</option>
+            <option value="expense">Despesa</option>
+        </select>
+        <button id="add-transaction-btn" class="bujo-button">Adicionar</button>
+    </div>
+
+    <!-- Lista de Transações -->
+    <div class="transactions-list-container">
+        <h4>Transações do Mês</h4>
+        <ul id="transactions-list" class="transactions-list">
+            <!-- As transações serão inseridas aqui pelo JS -->
+            <li class="transaction-placeholder">Nenhuma transação este mês.</li>
+        </ul>
+    </div>
+</div>

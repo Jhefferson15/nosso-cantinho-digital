@@ -1,0 +1,118 @@
+/* ---- ESTILOS DO MÓDULO DE COLEÇÕES ---- */
+
+.collections-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.add-collection-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.add-collection-form input {
+    flex-grow: 1;
+}
+
+#collections-body {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+#collections-list-container {
+    border-right: 1px solid #eee;
+    padding-right: 30px;
+}
+
+#collections-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.collection-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.collection-list-item:hover {
+    background-color: #f9f9f9;
+}
+
+.collection-list-item.active {
+    background-color: var(--cor-principal);
+    color: white;
+}
+
+.collection-list-item.active .delete-collection-btn {
+    color: white;
+}
+
+.delete-collection-btn, .delete-item-btn {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.collection-list-item:hover .delete-collection-btn,
+#collection-item-list li:hover .delete-item-btn {
+    visibility: visible;
+    opacity: 1;
+}
+
+#collection-select-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #888;
+    text-align: center;
+}
+
+#collection-view h4 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.add-item-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.add-item-form input {
+    flex-grow: 1;
+}
+
+#collection-item-list {
+    list-style: none;
+    padding: 0;
+}
+
+#collection-item-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.collection-list-placeholder, .collection-item-placeholder {
+    color: #888;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.hidden {
+    display: none;
+}

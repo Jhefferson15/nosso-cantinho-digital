@@ -1,0 +1,32 @@
+/* ---- CONFIGURAÇÕES GLOBAIS E VARIÁVEIS ---- */
+:root {
+    --cor-fundo: #fdf6f0;
+    --cor-card: #FFFFFF;
+    --cor-principal: #e57373; /* Tom de vermelho/rosa suave */
+    --cor-sucesso: #81c784; /* Verde para 'love' e itens completos */
+    --cor-erro: #e57373;   /* Vermelho para 'nope' */
+    --cor-texto: #4A4A4A;
+    --cor-nav: #ffffff;
+    --cor-nav-icon: #b0bec5;
+    --cor-nav-active: var(--cor-principal);
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    --fonte-titulo: 'Dancing Script', cursive;
+    --fonte-corpo: 'Montserrat', sans-serif;
+    --borda-radius: 16px;
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+html { 
+    scroll-behavior: smooth; 
+}
+
+body {
+    font-family: var(--fonte-corpo);
+    color: var(--cor-texto);
+    background-color: var(--cor-fundo);
+}

@@ -1,0 +1,40 @@
+<div id="moments-container">
+    <div class="view-toggle">
+        <button id="swipe-view-btn" class="active"><i class="fas fa-clone"></i></button>
+        <button id="gallery-view-btn"><i class="fas fa-th"></i></button>
+    </div>
+
+    <div id="swipe-view" class="view active">
+        <!-- O conteúdo da visualização de swipe será carregado aqui -->
+    </div>
+    <div id="gallery-view" class="view">
+        <!-- O conteúdo da visualização de galeria será carregado aqui -->
+    </div>
+</div>
+
+<button id="fab-add-moment" class="fab"><i class="fas fa-plus"></i></button>
+
+<!-- Modal de Adicionar Momento -->
+<div id="add-moment-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Adicionar Novo Momento</h2>
+            <button id="close-modal-btn" class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p>De onde você quer adicionar sua foto?</p>
+            <div class="upload-options">
+                <button id="upload-computer-btn"><i class="fas fa-upload"></i> Do Computador</button>
+                <button id="upload-drive-btn"><i class="fab fa-google-drive"></i> Do Google Drive</button>
+                <button id="take-photo-btn"><i class="fas fa-camera"></i> Tirar Foto</button>
+            </div>
+            <div id="upload-form-container" class="hidden">
+                <form id="upload-form">
+                    <input type="file" id="image-input" accept="image/*" required>
+                    <textarea id="caption-input" placeholder="Escreva uma legenda..."></textarea>
+                    <button type="submit">Adicionar Momento</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

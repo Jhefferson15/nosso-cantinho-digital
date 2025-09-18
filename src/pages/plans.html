@@ -1,0 +1,41 @@
+<header class="app-header">
+    <h1>Nossos Planos</h1>
+    <p>Conquistando o futuro, um sonho de cada vez.</p>
+</header>
+
+<main class="main-content-page">
+    <div class="card">
+        <div class="progress-section">
+            <h3>Progresso dos Nossos Sonhos</h3>
+            <div class="progress-bar-container">
+                <div id="plans-progress-bar" class="progress-bar-fill"></div>
+            </div>
+            <p id="plans-progress-text">0 / 0 Etapas Concluídas</p>
+        </div>
+
+        <form id="add-plan-form" class="add-plan-form">
+            <div class="form-inputs">
+                <input type="text" id="new-plan-text" placeholder="Adicionar um novo plano..." required>
+                <input type="date" id="new-plan-date">
+            </div>
+            <button type="submit"><i class="fas fa-plus"></i></button>
+        </form>
+
+        <ul id="plans-list" class="checklist-enhanced"></ul>
+    </div>
+</main>
+
+<!-- NOVO: Modal para Sub-tarefas -->
+<div id="subtask-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 id="modal-title">Etapas do Plano</h2>
+        <form id="modal-add-subtask-form" class="modal-add-form">
+            <input type="text" id="new-subtask-text" placeholder="Nova etapa..." required>
+            <button type="submit"><i class="fas fa-plus"></i></button>
+        </form>
+        <ul id="modal-subtask-list" class="checklist-enhanced">
+            <!-- Sub-tarefas aparecerão aqui -->
+        </ul>
+        <button id="modal-close-btn" class="modal-close-button">Fechar</button>
+    </div>
+</div>

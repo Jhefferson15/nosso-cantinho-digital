@@ -1,0 +1,52 @@
+/* Estilos para a visualização em galeria */
+#gallery-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 5px;
+    padding: 10px;
+}
+
+.gallery-item {
+    width: 100%;
+    padding-bottom: 100%; /* Aspect ratio 1:1 */
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.gallery-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+}
+
+.view-toggle {
+    display: flex;
+    border: 1px solid var(--cor-primaria);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.view-toggle button {
+    background: none;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+    color: var(--cor-primaria);
+}
+
+.view-toggle button.active {
+    background-color: var(--cor-primaria);
+    color: white;
+}

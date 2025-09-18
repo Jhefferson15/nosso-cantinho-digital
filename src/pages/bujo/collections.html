@@ -1,0 +1,36 @@
+<div id="collections-container" class="bujo-card">
+    <div class="collections-header">
+        <h3>Minhas Coleções</h3>
+        <div class="add-collection-form">
+            <input type="text" id="new-collection-name" class="bujo-input" placeholder="Nome da nova coleção...">
+            <button id="add-collection-btn" class="bujo-button">Criar Coleção</button>
+        </div>
+    </div>
+
+    <div id="collections-body">
+        <!-- Coluna da Esquerda: Lista de Coleções -->
+        <div id="collections-list-container">
+            <ul id="collections-list">
+                <!-- Nomes das coleções serão inseridos aqui pelo JS -->
+                <li class="collection-list-placeholder">Nenhuma coleção ainda. Crie uma!</li>
+            </ul>
+        </div>
+
+        <!-- Coluna da Direita: Conteúdo da Coleção Selecionada -->
+        <div id="collection-content-container">
+            <div id="collection-view" class="hidden">
+                <h4 id="collection-view-title"></h4>
+                <div class="add-item-form">
+                    <input type="text" id="new-item-text" class="bujo-input" placeholder="Adicionar item...">
+                    <button id="add-item-btn" class="bujo-button">Adicionar</button>
+                </div>
+                <ul id="collection-item-list">
+                    <!-- Itens da coleção serão inseridos aqui -->
+                </ul>
+            </div>
+            <div id="collection-select-placeholder">
+                <p>Selecione uma coleção à esquerda para ver seus itens.</p>
+            </div>
+        </div>
+    </div>
+</div>

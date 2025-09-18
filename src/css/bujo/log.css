@@ -1,0 +1,111 @@
+/* ---- ESTILOS DO MÓDULO DE LOG (CALENDÁRIO) ---- */
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+
+.calendar-day, .calendar-weekday {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.calendar-weekday {
+    font-weight: bold;
+    color: var(--cor-secundaria-texto);
+    font-size: 0.9rem;
+}
+
+.calendar-day {
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid transparent;
+}
+
+.calendar-day:hover {
+    background-color: #fdf0ee;
+    border-color: var(--cor-principal);
+}
+
+.calendar-day.other-month {
+    color: #ccc;
+    cursor: default;
+}
+
+.calendar-day.today {
+    background-color: var(--cor-principal);
+    color: white;
+    font-weight: bold;
+}
+
+.calendar-day.selected {
+    background-color: #c87870;
+    color: white;
+    border-color: #c87870;
+}
+
+/* ---- ESTILOS DO MÓDULO DE LOG (REGISTROS DIÁRIOS) ---- */
+
+.entry-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.entry-form #entry-type {
+    flex-basis: 150px;
+}
+
+.entry-form #entry-text {
+    flex-grow: 1;
+}
+
+.daily-log-list {
+    list-style: none;
+    padding: 0;
+}
+
+.daily-log-list li {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: flex-start; /* Alinha o checkbox e o texto ao início */
+    align-items: center;
+    gap: 15px; /* Aumenta o espaço entre o checkbox e o texto */
+}
+
+.daily-log-list li input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.daily-log-list li.completed span {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.daily-log-list li:last-child {
+    border-bottom: none;
+}
+
+.log-entry-placeholder {
+    color: #888;
+    text-align: center;
+    padding: 20px 0;
+}

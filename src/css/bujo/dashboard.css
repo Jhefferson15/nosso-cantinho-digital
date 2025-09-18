@@ -1,0 +1,92 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.dashboard-widget {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-widget h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Styles for Finance Widget */
+#finances-summary-widget {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    text-align: center;
+}
+
+#finances-summary-widget .summary-item {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#finances-summary-widget .summary-item h4 {
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#finances-summary-widget .summary-item p {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Styles for Quick Add Widget */
+#quick-add-form .bujo-input {
+    margin-bottom: 10px;
+}
+
+#quick-add-form button {
+    width: 100%;
+}
+
+/* Styles for Daily Log Widget */
+#daily-log-widget-list {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1; /* Makes the list take available space */
+}
+
+/* Styles for Habits Widget */
+#habits-summary-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.habit-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.habit-summary-item .progress-bar-container {
+    flex-grow: 1;
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    margin-left: 15px;
+    overflow: hidden;
+}
+
+.habit-summary-item .progress-bar {
+    height: 100%;
+    background-color: var(--cor-principal);
+    border-radius: 10px;
+    text-align: right;
+    padding-right: 5px;
+    color: white;
+    font-size: 0.8rem;
+    line-height: 20px;
+}
