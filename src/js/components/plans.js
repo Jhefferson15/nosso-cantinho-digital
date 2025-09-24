@@ -1,5 +1,63 @@
+// --- API Wrapper Functions ---
+const API_URL = '/api/plans';
+
+async function fetchPlans() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Erro ao buscar planos.');
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Falha na API:', error);
+        // Retorna um array vazio em caso de erro para não quebrar a UI
+        return [];
+    }
+}
+
+async function addPlan(planData) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(planData),
+        });
+        if (!response.ok) throw new Error('Erro ao adicionar plano.');
+        return await response.json();
+    } catch (error) {
+        console.error('Falha na API:', error);
+        return null;
+    }
+}
+
+async function updatePlan(id, planData) {
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(planData),
+        });
+        if (!response.ok) throw new Error('Erro ao atualizar plano.');
+        return await response.json();
+    } catch (error) {
+        console.error('Falha na API:', error);
+        return null;
+    }
+}
+
+async function deletePlan(id) {
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Erro ao deletar plano.');
+        return await response.json();
+    } catch (error) {
+        console.error('Falha na API:', error);
+        return null;
+    }
+}
+
 export function initPlansPage() {
-    // O restante do código de initPlansPage continua aqui...
     // --- Elementos do DOM ---
     const form = document.getElementById('add-plan-form');
     const textInput = document.getElementById('new-plan-text');
@@ -8,14 +66,10 @@ export function initPlansPage() {
     const progressBar = document.getElementById('plans-progress-bar');
     const progressText = document.getElementById('plans-progress-text');
     const fileInput = document.getElementById('import-file-input');
-
-    // Elementos do Menu de Configurações
     const settingsBtn = document.getElementById('settings-btn');
     const settingsDropdown = document.getElementById('settings-dropdown');
     const importBtn = document.getElementById('dropdown-import-btn');
     const exportBtn = document.getElementById('dropdown-export-btn');
-
-    // Elementos do Modal de Sub-tarefas
     const subtaskModal = document.getElementById('subtask-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalSubtaskList = document.getElementById('modal-subtask-list');
@@ -25,76 +79,18 @@ export function initPlansPage() {
 
     // --- Dados e Estado ---
     let plans = [];
-    let currentPlanInModal = null; // Guarda a referência do plano sendo editado no modal
+    let currentPlanInModal = null;
 
-    // --- Funções de Dados ---
-    function loadPlans() {
-        const storedPlans = localStorage.getItem('ourPlans');
-        if (storedPlans && JSON.parse(storedPlans).length > 0) {
-            plans = JSON.parse(storedPlans);
-        } else {
-            plans = [createVestibularPlan()];
-            savePlans();
-        }
-    }
-
-    function savePlans() {
-        localStorage.setItem('ourPlans', JSON.stringify(plans));
-    }
-
-    function createVestibularPlan() {
-        const studyTopicsText = `* Conceitos básicos, Origem da vida, Níveis de organização
-* Célula procarionte x eucarionte, Organelas, Membrana plasmática
-* Enzimas, Respiração celular, Fermentação
-* DNA, RNA, Duplicação, transcrição e tradução
-* Genética clássica: 1ª e 2ª Leis de Mendel
-* Genética humana: Grupos sanguíneos, Herança ligada ao sexo
-* Biotecnologia: Clonagem, transgênicos, DNA recombinante
-* Teorias evolucionistas, Seleção natural, Evidências da evolução
-* Ecologia básica: População, comunidade, ecossistema, Cadeias alimentares
-* Ciclos biogeoquímicos: Carbono, nitrogênio, água
-* Impactos ambientais: Efeito estufa, poluição, desmatamento
-* Sucessão ecológica e Biomas brasileiros
-* Invertebrados I: Poríferos, Cnidários, Platelmintos, Nematelmintos
-* Invertebrados II: Moluscos, Anelídeos, Artrópodes, Equinodermos
-* Vertebrados: Peixes, Anfíbios, Répteis, Aves e Mamíferos
-* Sistemas do corpo humano I: Digestório, respiratório, circulatório
-* Sistemas do corpo humano II: Excretor, nervoso, endócrino
-* Sistema locomotor e imunológico
-* Reprodução humana e Métodos contraceptivos
-* Hormônios e controle do corpo
-* Botânica I: Briófitas, Pteridófitas
-* Botânica II: Gimnospermas e Angiospermas
-* Fisiologia vegetal: Fotossíntese, transpiração
-* Revisão geral + simulados`;
-        
-        const subtasks = studyTopicsText.trim().split('\n').map((line, index) => ({
-            id: Date.now() + index,
-            text: `Semana ${index + 1}: ${line.trim().substring(2)}`,
-            completed: false
-        }));
-
-        return {
-            id: Date.now(),
-            text: "Plano Vestibular Juntos",
-            completed: false,
-            targetDate: null,
-            subtasks: subtasks
-        };
-    }
-
-    // --- Funções de Renderização ---
+    // --- Funções de Renderização (semelhantes às anteriores) ---
     function renderPlans() {
         list.innerHTML = '';
         if (plans.length === 0) {
             list.innerHTML = `<p style="text-align: center; color: #aaa; padding: 20px 0;">Nenhum plano adicionado ainda. Vamos sonhar juntos!</p>`;
         }
-        
         plans.forEach(plan => {
             const li = createPlanElement(plan);
             list.appendChild(li);
         });
-
         updateProgress();
         addDragAndDropListeners();
     }
@@ -104,12 +100,10 @@ export function initPlansPage() {
         li.className = `plan-item ${plan.completed ? 'completed' : ''}`;
         li.dataset.id = plan.id;
         li.draggable = true;
-
         const hasSubtasks = plan.subtasks && plan.subtasks.length > 0;
         const subtaskButton = hasSubtasks ? `<i class="fas fa-list-ul open-modal-btn" title="Ver etapas"></i>` : `<span class="open-modal-btn" style="display: inline-block; width: 24px;"></span>`;
         const checkboxIcon = plan.completed ? 'fa-solid fa-check-square' : 'fa-regular fa-square';
         const dateInfo = plan.targetDate ? `<div class="plan-date-info"><span class="target-date">Meta: ${new Date(plan.targetDate + 'T00:00:00').toLocaleDateString('pt-BR')}</span></div>` : '';
-
         li.innerHTML = `
             <div class="plan-header">
                 ${subtaskButton}
@@ -131,24 +125,18 @@ export function initPlansPage() {
         subLi.className = `sub-plan-item ${subtask.completed ? 'completed' : ''}`;
         subLi.dataset.id = subtask.id;
         const checkboxIcon = subtask.completed ? 'fa-solid fa-check-square' : 'fa-regular fa-square';
-        
         subLi.innerHTML = `
             <i class="plan-checkbox ${checkboxIcon}"></i>
-            <div class="plan-details">
-                <span class="plan-text">${subtask.text}</span>
-            </div>
-            <div class="plan-actions">
-                 <button class="delete-btn" title="Excluir"><i class="fas fa-trash-alt"></i></button>
-            </div>`;
+            <div class="plan-details"><span class="plan-text">${subtask.text}</span></div>
+            <div class="plan-actions"><button class="delete-btn" title="Excluir"><i class="fas fa-trash-alt"></i></button></div>`;
         return subLi;
     }
-    
+
     function renderSubtasksInModal() {
         if (!currentPlanInModal) return;
         modalSubtaskList.innerHTML = '';
         currentPlanInModal.subtasks.forEach(subtask => {
-            const subLi = createSubPlanElement(subtask);
-            modalSubtaskList.appendChild(subLi);
+            modalSubtaskList.appendChild(createSubPlanElement(subtask));
         });
     }
 
@@ -169,8 +157,8 @@ export function initPlansPage() {
         progressText.textContent = `${completedTasks} / ${totalTasks} Etapas Concluídas`;
     }
 
-    // --- Funções de Eventos ---
-    function handleMainListClick(e) {
+    // --- Funções de Eventos (Adaptadas para API) ---
+    async function handleMainListClick(e) {
         const mainItem = e.target.closest('.plan-item');
         if (!mainItem) return;
 
@@ -182,52 +170,55 @@ export function initPlansPage() {
             openSubtaskModal(mainPlan);
         } else if (e.target.matches('.delete-btn, .delete-btn *')) {
             if (confirm(`Tem certeza que deseja excluir o plano "${mainPlan.text}"?`)) {
-                plans = plans.filter(p => p.id !== mainPlanId);
-                savePlans();
-                renderPlans();
+                await deletePlan(mainPlanId);
+                await refreshPlans();
             }
         } else if (e.target.matches('.edit-btn, .edit-btn *')) {
             editPlan(mainItem.querySelector('.plan-header'), mainPlan);
         } else if (e.target.matches('.plan-checkbox, .plan-checkbox *')) {
-            mainPlan.completed = !mainPlan.completed;
+            const newCompletedStatus = !mainPlan.completed;
             if (mainPlan.subtasks) {
-                mainPlan.subtasks.forEach(st => st.completed = mainPlan.completed);
+                mainPlan.subtasks.forEach(st => st.completed = newCompletedStatus);
             }
-            savePlans();
-            renderPlans();
+            await updatePlan(mainPlanId, { completed: newCompletedStatus, subtasks: mainPlan.subtasks });
+            await refreshPlans();
         }
     }
 
-    function editPlan(header, plan) {
+    async function editPlan(header, plan) {
         const detailsDiv = header.querySelector('.plan-details');
         const originalText = plan.text;
         detailsDiv.innerHTML = `<input type="text" class="edit-input" value="${originalText}">`;
-        
         const input = detailsDiv.querySelector('.edit-input');
         input.focus();
         
-        const saveEdit = () => {
+        const saveEdit = async () => {
             const newText = input.value.trim();
-            if (newText) plan.text = newText;
-            savePlans();
-            renderPlans();
+            if (newText && newText !== originalText) {
+                await updatePlan(plan.id, { text: newText });
+            }
+            await refreshPlans();
         };
         
         input.addEventListener('blur', saveEdit);
         input.addEventListener('keydown', e => { if (e.key === 'Enter') input.blur(); });
     }
-    
-    // --- Lógica do Modal de Sub-tarefas ---
+
+    // --- Lógica do Modal (Adaptada para API) ---
     function openSubtaskModal(plan) {
         modalTitle.textContent = `Etapas: ${plan.text}`;
         renderSubtasksInModal();
         subtaskModal.classList.add('visible');
     }
 
-    function closeSubtaskModal() {
+    async function closeSubtaskModal() {
+        if (currentPlanInModal) {
+             // Salva o estado atual do plano (com as subtarefas modificadas) antes de fechar
+            await updatePlan(currentPlanInModal.id, { subtasks: currentPlanInModal.subtasks });
+        }
         subtaskModal.classList.remove('visible');
         currentPlanInModal = null;
-        renderPlans(); // Atualiza a lista principal com as mudanças feitas no modal
+        await refreshPlans();
     }
 
     function handleModalListClick(e) {
@@ -242,76 +233,20 @@ export function initPlansPage() {
         } else if (e.target.matches('.plan-checkbox, .plan-checkbox *')) {
             subPlan.completed = !subPlan.completed;
         }
-        
-        savePlans();
-        renderSubtasksInModal(); // Re-renderiza apenas a lista do modal
+        renderSubtasksInModal(); // Re-renderiza localmente para resposta rápida
     }
-    
+
     modalAddForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const text = newSubtaskInput.value.trim();
         if (!text || !currentPlanInModal) return;
         
-        currentPlanInModal.subtasks.push({
-            id: Date.now(),
-            text: text,
-            completed: false
-        });
-        
-        savePlans();
+        currentPlanInModal.subtasks.push({ id: Date.now(), text: text, completed: false });
         renderSubtasksInModal();
         newSubtaskInput.value = '';
     });
-
-    // --- Lógica do Menu de Configurações e I/O ---
-    function toggleSettingsMenu() {
-        settingsDropdown.classList.toggle('show');
-    }
     
-    window.addEventListener('click', (e) => {
-        if (!settingsBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
-            settingsDropdown.classList.remove('show');
-        }
-    });
-
-    function exportPlans() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(plans, null, 2));
-        const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", `nossos_planos_${new Date().toISOString().split('T')[0]}.json`);
-        document.body.appendChild(downloadAnchorNode);
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
-        toggleSettingsMenu();
-    }
-
-    function importPlans(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const importedData = JSON.parse(e.target.result);
-                if (Array.isArray(importedData)) {
-                     if (confirm("Isso substituirá todos os planos atuais. Deseja continuar?")) {
-                        plans = importedData;
-                        savePlans();
-                        renderPlans();
-                     }
-                } else {
-                    alert("Erro: O arquivo JSON não está no formato esperado (não é um array).");
-                }
-            } catch (error) {
-                alert("Erro ao ler o arquivo. Verifique se é um JSON válido.");
-            } finally {
-                toggleSettingsMenu();
-            }
-        };
-        reader.readAsText(file);
-        fileInput.value = '';
-    }
-    
-    // --- Funções de Drag & Drop ---
+    // --- Funções de Drag & Drop (Adaptadas para API) ---
     function addDragAndDropListeners() {
         list.querySelectorAll('.plan-item').forEach(item => {
             item.addEventListener('dragstart', () => item.classList.add('dragging'));
@@ -323,15 +258,18 @@ export function initPlansPage() {
         e.preventDefault();
         const draggingItem = document.querySelector('.dragging');
         if (!draggingItem) return;
-        
         const afterElement = getDragAfterElement(list, e.clientY);
         list.insertBefore(draggingItem, afterElement);
     });
 
-    list.addEventListener('drop', () => {
+    list.addEventListener('drop', async () => {
         const newOrderIds = [...list.querySelectorAll('.plan-item')].map(item => Number(item.dataset.id));
-        plans.sort((a, b) => newOrderIds.indexOf(a.id) - newOrderIds.indexOf(b.id));
-        savePlans();
+        // Envia atualizações de sortOrder para a API
+        const updatePromises = newOrderIds.map((id, index) => {
+            return updatePlan(id, { sortOrder: index });
+        });
+        await Promise.all(updatePromises);
+        await refreshPlans();
     });
 
     function getDragAfterElement(container, y) {
@@ -339,37 +277,47 @@ export function initPlansPage() {
         return draggableElements.reduce((closest, child) => {
             const box = child.getBoundingClientRect();
             const offset = y - box.top - box.height / 2;
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
+            if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+            else return closest;
         }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
-
-    // --- Inicialização e Event Listeners ---
-    loadPlans();
-    renderPlans();
     
-    form.addEventListener('submit', (e) => {
+    // --- Lógica de I/O (simplificada) ---
+    // A importação/exportação agora é um recurso do backend, mas podemos manter um botão de exportação no frontend
+    function exportPlans() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(plans, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", `nossos_planos_${new Date().toISOString().split('T')[0]}.json`);
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+
+    // --- Inicialização ---
+    async function refreshPlans() {
+        plans = await fetchPlans();
+        renderPlans();
+    }
+
+    // Listeners
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const text = textInput.value.trim();
         if (!text) return;
-        plans.unshift({ id: Date.now(), text, completed: false, targetDate: dateInput.value, subtasks: [] });
-        savePlans();
-        renderPlans();
+        await addPlan({ text, completed: false, targetDate: dateInput.value, subtasks: [] });
+        await refreshPlans();
         form.reset();
     });
     
     list.addEventListener('click', handleMainListClick);
-    
-    // Listeners do menu de config
-    settingsBtn.addEventListener('click', toggleSettingsMenu);
+    settingsBtn.addEventListener('click', () => settingsDropdown.classList.toggle('show'));
     exportBtn.addEventListener('click', exportPlans);
-    importBtn.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', importPlans);
-
-    // Listeners do Modal
+    // A importação agora deve ser um endpoint de API, então o botão do frontend é desativado por enquanto.
+    importBtn.style.display = 'none';
     modalCloseBtn.addEventListener('click', closeSubtaskModal);
     modalSubtaskList.addEventListener('click', handleModalListClick);
+
+    // Carregamento inicial
+    refreshPlans();
 }

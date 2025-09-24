@@ -44,8 +44,17 @@ self.addEventListener('install', event => {
   );
 });
 
-// Estratégia de Cache-First
+// Estratégia de Network-First para a API, e Cache-First para o resto.
 self.addEventListener('fetch', event => {
+  const requestUrl = new URL(event.request.url);
+
+  // Ignora o cache para requisições da API
+  if (requestUrl.pathname.startsWith('/api/')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Estratégia Cache-First para todos os outros recursos
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -53,28 +62,29 @@ self.addEventListener('fetch', event => {
         if (response) {
           return response;
         }
-        // Se não, busca na rede, clona, e armazena no cache para uso futuro
+        // Se não, busca na rede.
         return fetch(event.request).then(
-          response => {
-            // Verifica se recebemos uma resposta válida
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
+          networkResponse => {
+            // Verifica se a resposta é válida antes de colocar no cache.
+            // Não armazena no cache respostas de extensões do chrome, por exemplo.
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+              return networkResponse;
             }
 
             // Clona a resposta. A resposta é um stream e só pode ser consumida uma vez.
-            const responseToCache = response.clone();
+            const responseToCache = networkResponse.clone();
 
             caches.open(CACHE_NAME)
               .then(cache => {
                 cache.put(event.request, responseToCache);
               });
 
-            return response;
+            return networkResponse;
           }
         ).catch(() => {
-            // Em caso de falha de rede (offline), pode-se retornar uma página de fallback
-            // Para este caso, apenas falhamos, mas o erro é capturado.
-            console.error('Fetch failed; returning offline fallback if available.');
+            // Em caso de falha de rede (offline), pode-se retornar uma página de fallback.
+            console.error('Fetch failed; a fallback could be returned here.');
+            // Ex: return caches.match('/offline.html');
         });
       })
   );

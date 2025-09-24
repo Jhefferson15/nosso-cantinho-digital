@@ -1,56 +1,96 @@
-import { getData, saveData } from '../components/journal.js';
+// --- API Wrapper Functions ---
+const API_URL = '/api/finances';
+
+async function fetchFinances() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Erro ao buscar finanças.');
+        const result = await response.json();
+        return result.data;
+    } catch (error) {
+        console.error('Falha na API:', error);
+        return [];
+    }
+}
+
+async function addFinance(transactionData) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(transactionData),
+        });
+        if (!response.ok) throw new Error('Erro ao adicionar transação.');
+        return await response.json();
+    } catch (error) {
+        console.error('Falha na API:', error);
+        return null;
+    }
+}
+
+async function deleteFinance(id) {
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) throw new Error('Erro ao deletar transação.');
+        return await response.json();
+    } catch (error) {
+        console.error('Falha na API:', error);
+        return null;
+    }
+}
+
 
 export default function initFinancesView() {
-    const data = getData();
+    let allTransactions = [];
     let currentDate = new Date();
 
     // DOM Elements
     const monthYearEl = document.getElementById('finances-month-year');
     const prevMonthBtn = document.getElementById('finances-prev-month');
     const nextMonthBtn = document.getElementById('finances-next-month');
-    
     const summaryIncomeEl = document.getElementById('summary-income');
     const summaryExpensesEl = document.getElementById('summary-expenses');
     const summaryBalanceEl = document.getElementById('summary-balance');
-
     const descriptionEl = document.getElementById('transaction-description');
     const amountEl = document.getElementById('transaction-amount');
     const typeEl = document.getElementById('transaction-type');
     const addTransactionBtn = document.getElementById('add-transaction-btn');
     const transactionsListEl = document.getElementById('transactions-list');
 
-    const getMonthKey = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-
     const formatCurrency = (value) => {
-        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        return (value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
     const renderFinances = () => {
-        const monthKey = getMonthKey(currentDate);
-        const transactions = data.finances[monthKey] || [];
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
 
         monthYearEl.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+
+        const transactionsForMonth = allTransactions.filter(trx => {
+            const trxDate = new Date(trx.date);
+            return trxDate.getMonth() === currentMonth && trxDate.getFullYear() === currentYear;
+        });
 
         let totalIncome = 0;
         let totalExpenses = 0;
 
         transactionsListEl.innerHTML = '';
-        if (transactions.length === 0) {
+        if (transactionsForMonth.length === 0) {
             transactionsListEl.innerHTML = '<li class="transaction-placeholder">Nenhuma transação este mês.</li>';
         } else {
-            transactions.forEach((trx, index) => {
-                if (trx.type === 'income') {
-                    totalIncome += trx.amount;
-                } else {
-                    totalExpenses += trx.amount;
-                }
+            transactionsForMonth.forEach(trx => {
+                if (trx.type === 'income') totalIncome += trx.amount;
+                else totalExpenses += trx.amount;
 
                 const li = document.createElement('li');
                 li.className = `transaction-item ${trx.type}`;
                 li.innerHTML = `
                     <span>${trx.description}</span>
                     <span class="amount">${formatCurrency(trx.amount)}</span>
-                    <button class="bujo-button-icon delete-trx-btn" data-index="${index}">&times;</button>
+                    <button class="bujo-button-icon delete-trx-btn" data-id="${trx.id}">&times;</button>
                 `;
                 transactionsListEl.appendChild(li);
             });
@@ -62,49 +102,48 @@ export default function initFinancesView() {
         summaryBalanceEl.textContent = formatCurrency(balance);
     };
 
-    addTransactionBtn.addEventListener('click', () => {
+    async function refreshAndRender() {
+        allTransactions = await fetchFinances();
+        renderFinances();
+    }
+
+    addTransactionBtn.addEventListener('click', async () => {
         const description = descriptionEl.value.trim();
         const amount = parseFloat(amountEl.value);
         const type = typeEl.value;
+        const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), new Date().getDate()).toISOString().split('T')[0];
+
 
         if (!description || isNaN(amount) || amount <= 0) {
             alert('Por favor, preencha a descrição e um valor válido.');
             return;
         }
 
-        const monthKey = getMonthKey(currentDate);
-        if (!data.finances[monthKey]) {
-            data.finances[monthKey] = [];
-        }
-
-        data.finances[monthKey].push({ description, amount, type });
-        saveData(data);
+        await addFinance({ description, amount, type, date });
 
         descriptionEl.value = '';
         amountEl.value = '';
-        renderFinances();
+
+        await refreshAndRender();
     });
 
-    transactionsListEl.addEventListener('click', (e) => {
+    transactionsListEl.addEventListener('click', async (e) => {
         if (e.target.classList.contains('delete-trx-btn')) {
-            const index = parseInt(e.target.dataset.index, 10);
-            const monthKey = getMonthKey(currentDate);
-            
-            data.finances[monthKey].splice(index, 1);
-            saveData(data);
-            renderFinances();
+            const id = parseInt(e.target.dataset.id, 10);
+            await deleteFinance(id);
+            await refreshAndRender();
         }
     });
 
     prevMonthBtn.addEventListener('click', () => {
         currentDate.setMonth(currentDate.getMonth() - 1);
-        renderFinances();
+        renderFinances(); // Apenas re-renderiza com os dados já carregados
     });
 
     nextMonthBtn.addEventListener('click', () => {
         currentDate.setMonth(currentDate.getMonth() + 1);
-        renderFinances();
+        renderFinances(); // Apenas re-renderiza com os dados já carregados
     });
 
-    renderFinances();
+    refreshAndRender();
 }

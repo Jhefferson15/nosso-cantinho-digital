@@ -2,68 +2,67 @@
 
 Bem-vindos ao repositório do **Nosso Cantinho Digital**, uma aplicação web progressiva (PWA) projetada para ser um espaço privado e especial para um casal. A plataforma centraliza memórias, planejamentos e momentos em um ambiente rico e interativo.
 
-A aplicação foi construída como uma Single Page Application (SPA) com JavaScript puro, garantindo uma experiência de usuário rápida e fluida, e é totalmente funcional offline.
+A aplicação agora é um sistema cliente-servidor, com um frontend em JavaScript puro (SPA) e um backend em Node.js com Express e SQLite.
 
-## ✨ Funcionalidades Atuais
+## ✨ Funcionalidades
 
-- **Bullet Journal (Bujo) Completo:**
-  - **Dashboard:** Um painel de controle com resumos de finanças, tarefas diárias e progresso de hábitos.
-  - **Registro de Logs:** Calendário mensal interativo e registro diário de tarefas, eventos e notas.
-  - **Registro Futuro:** Planejamento a longo prazo para os próximos 6 meses.
-  - **Coleções:** Crie e gerencie listas personalizadas para qualquer finalidade (livros, filmes, etc.).
-  - **Rastreador de Hábitos:** Grade mensal para acompanhar a conclusão de hábitos.
-  - **Controle Financeiro:** Registre receitas e despesas e visualize o balanço mensal.
-  - **Gráficos:** Visualize o balanço financeiro e o progresso dos hábitos em gráficos.
-- **Momentos:** Um feed de cartões no estilo "Tinder" com fotos e legendas para relembrar momentos especiais.
-- **Galeria de Fotos:** Uma galeria com todas as imagens e funcionalidade de lightbox.
-- **Nossos Planos:** Uma checklist de planos e sonhos do casal com barra de progresso.
-- **Reprodutor de Áudio:** Uma página dedicada para ouvir áudios especiais.
-- **Progressive Web App (PWA):**
-  - **Instalável:** Pode ser adicionado à tela inicial de um celular ou desktop.
-  - **Offline-first:** A aplicação funciona perfeitamente mesmo sem conexão com a internet.
+O frontend continua com todas as suas funcionalidades ricas, mas agora os dados são persistidos em um servidor, permitindo o uso compartilhado em múltiplos dispositivos.
+
+- **Bullet Journal (Bujo) Completo**
+- **Momentos**
+- **Galeria de Fotos**
+- **Nossos Planos**
+- **Reprodutor de Áudio**
+- **PWA com Suporte Offline:** A interface da aplicação continua funcionando offline, enquanto as requisições de dados são sincronizadas com o servidor quando há conexão.
 
 ## 🏛️ Arquitetura da Aplicação
 
-A aplicação utiliza uma arquitetura de SPA modular sem frameworks.
+A arquitetura agora é composta por um frontend SPA e um backend RESTful.
 
 ### Estrutura de Pastas
 
 ```
 /nosso-cantinho-digital
+├── server/
+│   ├── node_modules/     # Dependências do backend
+│   ├── database.db       # Banco de dados SQLite
+│   ├── database.js       # Script de inicialização do banco
+│   ├── package.json      # Definições do projeto backend
+│   └── server.js         # Servidor principal (Express)
 ├── src/
 │   ├── css/
-│   │   ├── bujo/         # Estilos para cada módulo do Bujo
-│   │   └── components/   # Estilos de componentes reutilizáveis
-│   ├── js/
-│   │   ├── bujo/         # Lógica para cada módulo do Bujo
-│   │   ├── components/   # Lógica de componentes (galeria, journal loader, etc.)
-│   │   └── router/       # Sistema de roteamento da SPA
-│   └── pages/
-│       ├── bujo/         # Arquivos HTML para os módulos do Bujo
-│       └── ...           # Outras páginas da aplicação
-├── index.html            # Ponto de entrada da aplicação
-├── manifest.json         # Manifesto da PWA
-├── sw.js                 # Service Worker
+│   └── js/
+├── index.html
+├── manifest.json
+├── sw.js                 # Service Worker (agora com lógica de API)
 └── README.md
 ```
 
 ### Roteamento
 
-O roteamento é gerenciado por `src/js/router/router.js` e utiliza **rotas baseadas em hash** (ex: `/#/journal`). Isso garante que a aplicação possa ser carregada a partir de qualquer URL sem a necessidade de configuração especial do servidor.
+O roteamento do frontend continua baseado em hash (`/#/journal`), enquanto o backend expõe uma API REST em `/api/*`.
 
 ## 🚀 Como Executar Localmente
 
-Para executar o projeto, você precisa de um servidor web local devido ao uso de módulos ES6 e `fetch`.
+O projeto agora requer a execução de um servidor Node.js.
 
-1.  **Instale o `live-server` (se não tiver):**
+1.  **Pré-requisitos:**
+    *   Node.js e npm instalados.
+
+2.  **Instale as dependências do backend:**
+    *   Navegue até a pasta `server/` e execute:
     ```bash
-    npm install -g live-server
+    npm install
     ```
-2.  **Inicie o servidor na raiz do projeto:**
+
+3.  **Inicie o servidor:**
+    *   Ainda na pasta `server/`, execute:
     ```bash
-    live-server
+    npm start
     ```
-3.  Abra o navegador no endereço fornecido (geralmente `http://127.0.0.1:8080`).
+
+4.  **Acesse a aplicação:**
+    *   Abra o navegador no endereço `http://localhost:3000`.
 
 ---
 
